@@ -10,6 +10,7 @@ Getting Started
 
 # Run commands:
 ##### git clone https://github.com/AlexeyKatomachin/PageNumbersReducer.git
+###### Note: it's important to move in project directory after clone (cd PageNumbersReducer/)
 ##### mvn clean install
 ##### docker build --tag=printer:latest .
 ##### docker run -p8080:8080 printer:latest
