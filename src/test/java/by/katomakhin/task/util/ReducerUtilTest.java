@@ -9,25 +9,25 @@ class ReducerUtilTest {
 
     @Test
     void convertStringArrToIntArr() {
-        String[] pages = {"1","2"};
-        int[] convertedPages = ReducerUtil.convertStringArrToIntArr(pages);
+        String[] pages = {" 2", "1"};
+        Integer[] convertedPages = ReducerUtil.convertStringArrToTreeSet(pages).toArray(Integer[]::new);
         assertNotNull(convertedPages);
-        assertEquals(convertedPages[0], Integer.parseInt(pages[0]));
-        assertEquals(convertedPages[1], Integer.parseInt(pages[1]));
+        assertEquals(convertedPages[0], Integer.parseInt(pages[1]));
+        assertEquals(convertedPages[1], Integer.parseInt(pages[0].trim()));
     }
 
     @Test
     void convertStringArrToIntArrThrowException() {
-        String[] pagesNotDigit = {"1","a"};
-        String[] pagesNotPositive = {"1","-1"};
+        String[] pagesNotDigit = {"1", "a"};
+        String[] pagesNotPositive = {"1", "-1"};
 
-        assertThrows(InvalidPageNumbersException.class,() -> ReducerUtil.convertStringArrToIntArr(pagesNotDigit));
-        assertThrows(InvalidPageNumbersException.class,() -> ReducerUtil.convertStringArrToIntArr(pagesNotPositive));
+        assertThrows(InvalidPageNumbersException.class, () -> ReducerUtil.convertStringArrToTreeSet(pagesNotDigit));
+        assertThrows(InvalidPageNumbersException.class, () -> ReducerUtil.convertStringArrToTreeSet(pagesNotPositive));
     }
 
     @Test
     void reducePageNumbers() {
-        int[] original = {1,2,3,4,5,6,7,8,11,19,21,22,23,32};
+        Integer[] original = {1, 2, 3, 4, 5, 6, 7, 8, 11, 19, 21, 22, 23, 32};
         String reduced = "1-8,11,19,21-23,32";
 
         String result = ReducerUtil.reducePageNumbers(original);

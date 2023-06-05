@@ -4,13 +4,12 @@ import by.katomakhin.task.service.PrinterService;
 import by.katomakhin.task.util.ReducerUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Set;
 
 @Service
 public class PrinterServiceImpl implements PrinterService {
     public String reducePageNumbers(String pages) {
-        int[] convertedPages = ReducerUtil.convertStringArrToIntArr(pages.split(","));
-        Arrays.sort(convertedPages);
-        return ReducerUtil.reducePageNumbers(convertedPages);
+        Set<Integer> convertedPages = ReducerUtil.convertStringArrToTreeSet(pages.split(","));
+        return ReducerUtil.reducePageNumbers(convertedPages.toArray(Integer[]::new));
     }
 }

@@ -20,7 +20,8 @@ public class PrinterController {
 
     @GetMapping("reducedPageNumbers")
     @Operation(summary = "Getting reduced form for arbitrary set of page numbers")
-    public ReducedPageNumbersResponseDto reducedPageNumbers(@RequestParam("rawPageNumbers") String rawPageNumbers) {
+    public ReducedPageNumbersResponseDto reducedPageNumbers(
+            @RequestParam(value = "rawPageNumbers", required = false) String rawPageNumbers) {
         printerValidator.validateRawPageNumbers(rawPageNumbers);
         String reduced = printerService.reducePageNumbers(rawPageNumbers);
         return ReducedPageNumbersResponseDto.builder()

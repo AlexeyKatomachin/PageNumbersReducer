@@ -3,23 +3,14 @@ package by.katomakhin.task.util;
 import by.katomakhin.task.exception.InvalidPageNumbersException;
 import by.katomakhin.task.exception.message.ExceptionMessage;
 
-public class ReducerUtil {
-    public static int[] convertStringArrToIntArr(String[] pages) {
-        int[] convertedPages = new int[pages.length];
-        for (int i = 0; i < pages.length; i++) {
-            try {
-                convertedPages[i] = Integer.parseInt(pages[i]);
-            } catch (NumberFormatException ex) {
-                throw new InvalidPageNumbersException(String.format(ExceptionMessage.INVALID_PAGE_NUMBERS, pages[i]));
-            }
-            if (convertedPages[i] < 0) {
-                throw new InvalidPageNumbersException(String.format(ExceptionMessage.INVALID_PAGE_NUMBERS, pages[i]));
-            }
-        }
-        return convertedPages;
-    }
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    public static String reducePageNumbers(int[] pages) {
+public class ReducerUtil {
+
+    public static String reducePageNumbers(Integer[] pages) {
         StringBuilder result = new StringBuilder();
         int previous = pages[0];
         boolean consecutive = false;
@@ -44,5 +35,21 @@ public class ReducerUtil {
             result.append(previous);
         }
         return result.toString();
+    }
+
+    public static Set<Integer> convertStringArrToTreeSet(String[] pages) {
+        return Stream.of(pages)
+                .filter(x -> !"".equals(x))
+                .map(x -> {
+                    try {
+                        int page = Integer.parseInt(x.trim());
+                        if (page <= 0) {
+                            throw new NumberFormatException();
+                        }
+                        return page;
+                    } catch (NumberFormatException ex) {
+                        throw new InvalidPageNumbersException(String.format(ExceptionMessage.INVALID_PAGE_NUMBERS, x));
+                    }
+                }).collect(Collectors.toCollection(TreeSet::new));
     }
 }
